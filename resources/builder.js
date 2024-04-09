@@ -1201,7 +1201,11 @@ function HexBuilder(el,attr){
 	this.updateLink = function(){
 		var el = document.getElementById('link');
 		if(el){
-			el.innerHTML = '<label for="view">Link to this view:</label><input type="text" class="view" id="view" onClick="this.setSelectionRange(0, this.value.length)" value="'+location.protocol + '//' + location.host + location.pathname+'?'+this.url+'&colourscale='+encodeURI(this.options.scale.value)+'&borders='+this.options.border.checked+'&attribute='+encodeURI(this.options.attrib.value)+'&labels='+this.options.labels.checked+'" />';
+			if(this.url){
+				el.innerHTML = '<label for="view">Link to this view:</label><input type="text" class="view" id="view" onClick="this.setSelectionRange(0, this.value.length)" value="'+location.protocol + '//' + location.host + location.pathname+'?'+this.url+'&colourscale='+encodeURI(this.options.scale.value)+'&borders='+this.options.border.checked+'&attribute='+encodeURI(this.options.attrib.value)+'&labels='+this.options.labels.checked+'" />';
+			}else{
+				el.innerHTML = '<div class="warning padded">It is not possible to create a shareable link for local files.</div>';
+			}
 		}
 		return this;
 	};

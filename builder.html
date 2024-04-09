@@ -248,10 +248,15 @@
 	<footer class="b1-bg" id="notes">
 		<div class="holder">
 			<h2>Notes</h2>
-			<p>You can either read in an existing <a href="hexjson.html">HexJSON</a> file or start creating your own hex cartogram from a CSV file. The CSV should contain a column with the heading <code>id</code> that uniquely identifies each hex. Other columns will be added as properties of each hex. You can specify the position of the hex using the column headings <code>q</code> and <code>r</code>. A column with the heading <code>n</code> or <code>name</code> will set the displayed name of the hex. You can optionally colour the hexagons by including a column headed <code>colour</code>.</p>
+			
+			<h3>Loading data</h3>
+			<p>You can either read in an existing <a href="hexjson.html">HexJSON</a> file or start creating your own hex cartogram from a CSV file. These can either be loaded from a URL or from a local file. No data will be sent to our server; it all stays in this page. If you are using a URL it will need to be publicly accessible and <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">CORS will need to be enabled</a> on the remote server (otherwise this page isn't allowed to access the data).</p>
+			
+			<p>The CSV should contain a column with the heading <code>id</code> that uniquely identifies each hexagon. Other columns will be added as properties of each hexagon. You can specify the position of the hexagon using the column headings <code>q</code> and <code>r</code> (they must be separate columns). A column with the heading <code>n</code> or <code>name</code> will set the displayed name of the hexagon. You <em>can</em> choose to manually set the colour of each hexagon by including a column headed <code>colour</code>.</p>
 
 			<h3>Colouring hexagons</h3>
-			<p>If you have one or more hexagons selected you can choose to change their default colour by using the colour picker tool that appears in the top right of the screen.</p>
+			<p>Hexagons can be coloured by a data attribute using one of our defined colour scales. For instance, if your CSV file contains a column titled <code>Population</code> you could choose this attribute and set the colour scale to <code>Viridis8</code>.</p>
+			<p>When building a hexagon layout you may want to set default colours for hexagons. If you have one or more hexagons selected you can choose to change their default colour by using the colour picker tool that appears in the top right of the screen. Note that custom colours set using this method will <em>not</em> be available in <a href="#share">sharing links</a> and are only retained in exported versions.</p>
 
 			<h3>Moving hexagons</h3>
 			<p>To move one or more hexagons you must first select them then click in an empty hex in the grid. Pressing <code>c</code> on your keyboard will select all hexagons of the same colour or you can use the <code>Select by colour</code> in the colour picker at the top right. When you have everything where you want it, save the output. Note that this tool is for creating layouts rather than fully interactive visualisations.</p>
@@ -268,11 +273,12 @@
 				<li><code>keepmissing=</code> can be set to <code>true</code> or <code>false</code> to show or not show hexes that aren't referred to in the data</li>
 			</ul>
 
-			<h3>Using data in a Google Sheet</h3>
-			<p>If you have data in a publicly-visible Google Sheet you can add the parameter <code>gsheetid=1hqFqAyRp7JfHu7jmZK-tBtiU89B28rgfTKHofK16PMw</code> (replace <code>1hqFqAyRp7JfHu7jmZK-tBtiU89B28rgfTKHofK16PMw</code> with your Sheet ID) to the URL and the Builder will construct the CSV export URL for you e.g. load a simple Google Sheet, hide hex labels, and remove hex borders</p>
+			<h3 id="google-sheet">Using data in a Google Sheet</h3>
+			<p>If you have data in a <em>publicly-visible</em> Google Sheet you can add the parameter <code>gsheetid=1hqFqAyRp7JfHu7jmZK-tBtiU89B28rgfTKHofK16PMw</code> (replace <code>1hqFqAyRp7JfHu7jmZK-tBtiU89B28rgfTKHofK16PMw</code> with your Sheet ID) to the URL and the Builder will attempt to use your Google Sheet e.g. load a simple Google Sheet, hide hex labels, and remove hex borders.</p>
 			<pre>https://open-innovations.org/projects/hexmaps/builder.html?<em>gsheetid=1hqFqAyRp7JfHu7jmZK-tBtiU89B28rgfTKHofK16PMw</em>&attribute=Date&labels=false&borders=false</pre>
+			<p>Warning: there are several things that might stop this working because it relies on this page being able to see your Google Sheet and for it to be very straightforward. If your sheet is protected or complicated, this is likely to fail.</p>
 
-			<h3>Exporting the map</h3>
+			<h3 id="export">Exporting the map</h3>
 			<p>You can export the map in four ways:</p>
 			<ol style="margin: 1em 0 1em 2em;">
 				<li>HexJSON. This is the prefered output as it can be loaded back in to this tool again.</li>
@@ -280,8 +286,12 @@
 				<li>GeoJSON. A cartogram is not geographic but some people have requested "geographic formats" so they can use these hex cartograms with specific GIS software. To make it "geographic" we've done a very simple projection at Null Island (0&deg;, 0&deg;) keeping the result to approximately 0.1&deg;&times;0.1&deg; to try to reduce distortions. If you output as GeoJSON you won't be able to load it back into this tool.</li>
 				<li>PNG. This will save the map (without the grid) as an image that you can use elsewhere. You won't be able to load it back into this tool but it is useful for screenshots.</li>
 			</ol>
+			
+			<h3 id="share">Linking to a view</h3>
+			<p>If your CSV file exists at an accessible URL, it may be possible to create a link to a view with your data and selections. However, if you are using a local file you won't be able to do that because the data is not uploaded anywhere. If you are using a local file and want to show a hex cartogram to others you will have to <a href="#export">export the map</a> in order to share it via other means.</p>
+
 			<h2>Credits</h2>
-			&copy; 2017-22 <a href="https://odileeds.org/">Open Innovations</a>. Released under an MIT license. <a href="https://github.com/odileeds/hexmaps">Source on Github</a>.
+			&copy; 2017-24 <a href="https://odileeds.org/">Open Innovations</a>. Released under an MIT license. <a href="https://github.com/odileeds/hexmaps">Source on Github</a>.
 		</div>
 	</footer>
 
