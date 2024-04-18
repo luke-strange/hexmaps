@@ -153,7 +153,9 @@
 				<h2>Options</h2>
 				<form id="option_form" name="option_form" method="GET" enctype="multipart/form-data" accept-charset="UTF-8" action="#">
 					<div class="row">
-						<label for="url">CSV URL</label><input id="url" type="text" name="url" class="" placeholder="e.g. https://open-innovations.org/projects/hexmaps/data/wards-leeds.csv" />
+						<label for="url" aria-describedby="url-hint">CSV URL</label>
+						<p id="url-hint" class="hint">This can also be a Google Sheet. It must be publicly accessible.</p>
+						<input id="url" type="text" name="url" class="" placeholder="e.g. https://open-innovations.org/projects/hexmaps/data/wards-leeds.csv" />
 					</div>
 					<div class="row">
 						<label for="hexjson" aria-describedby="hexjson-hint">Layout URL</label>
