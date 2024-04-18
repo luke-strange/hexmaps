@@ -212,9 +212,10 @@
 			if(this.options.hexjson) this.loadHexJSON(this.options.hexjson);
 
 			/* Add events to form fields */
-			addEv('change',document.getElementById('borders'),{this:this},function(e){
+			
+			addEv('change',document.getElementById('url'),{this:this},function(e){
 				this.updateOptionsFromForm();
-				this.setBorders();
+				if(this.options.url) document.getElementById('url').classList.remove('required');
 			});
 			addEv('change',document.getElementById('colourscale'),{this:this},function(e){
 				this.updateOptionsFromForm();
@@ -231,6 +232,10 @@
 			addEv('change',document.getElementById('tooltips'),{this:this},function(e){
 				this.updateOptionsFromForm();
 				this.setLabels();
+			});
+			addEv('change',document.getElementById('borders'),{this:this},function(e){
+				this.updateOptionsFromForm();
+				this.setBorders();
 			});
 
 
