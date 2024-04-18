@@ -459,6 +459,7 @@
 								else txt = "";
 							}
 							txt += "";
+							txt = txt.replace(/<[^\>]*>/g,"");
 							var fs = attr['font-size']*0.5;
 							var tspans = '';
 							var lines = txt.split(/ /);
@@ -472,7 +473,8 @@
 						'format': function(txt,attr){
 							if(_obj.options.tooltips in attr.hex) txt = attr.hex[_obj.options.tooltips];
 							txt += "";
-							return txt.replace(/\\n/g,"<br />");
+							// Don't allow HTML
+							return txt.replace(/<[^\>]*>/g,"").replace(/\\n/g,"<br />");
 						}
 					},
 					'style': {
