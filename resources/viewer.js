@@ -125,8 +125,15 @@
 		}
 
 		// Update colour scales
-		for(var s in scales) this.colours.addScale(s,scales[s]);
-
+		var str = '';
+		for(var s in scales){
+			this.colours.addScale(s,scales[s]);
+			str += (str ? '':'')+'<code>'+s+'<span class="scale-preview" style="'+this.colours.getGradient(s)+';"></span></code>';
+		}
+		var snel = document.getElementById('scale-names');
+		if(snel) snel.innerHTML = str;
+	
+	
 		// Create the menu bar
 		this.menubar = new Menubar(document.getElementById('navigation'));
 
@@ -158,7 +165,8 @@
 				msg.info('Loaded CSV from <em>'+url+'</em>'+(url.indexOf('http')==0 ? ' ⚠️ external source':''));
 			}).catch(error => {
 				msg.remove('load-data');
-				msg.error('There has been a problem loading CSV data from <em>%c'+this.options.url+'%c</em>','font-style:italic;','font-style:normal;',{'fade':10000,'error':error});
+				msg.error('There has been a problem loading CSV data from <em>%c'+this.options.url+'%c</em>. It may not be publicly accessible or have some other issue.','font-style:italic;','font-style:normal;',{'fade':20000,'error':error});
+				document.getElementById('loader').innerHTML = "";
 			});
 			return this;
 		};
@@ -229,7 +237,7 @@
 			if(this.saveable){
 				var div = document.createElement('div');
 				div.classList.add('save');
-				div.innerHTML += '<button class="c10-bg" id="save-hex">HexJSON</button><button class="c8-bg" id="save-svg">SVG</button><button class="c8-bg" id="save-geo">GeoJSON</button><button class="c8-bg" id="save-png">PNG</button>';
+				div.innerHTML += '<button class="c10-bg" id="save-hex">HexJSON</button><button class="c8-bg" id="save-svg">SVG</button><button class="c8-bg" id="save-png">PNG</button><button class="c8-bg" id="save-geo">GeoJSON</button>';
 
 				document.getElementById('saves').appendChild(div);
 

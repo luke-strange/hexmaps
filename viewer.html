@@ -93,8 +93,10 @@
 		margin-left: 2em;
 	}
 	code { background: #444; color: inherit; }
+	ol { margin-left: 2em; }
+	#scale-names { line-height: 1em; display: grid; grid-template-columns: repeat(auto-fit, minmax(8em, 1fr)); grid-gap: 0.25em; }
 	#scale-names code { display: inline-block; line-height: 1em; }
-	.scale-preview { width: 100%; height: 0.5em; display: block; }
+	.scale-preview { width: 100%; height: 1em; display: block; }
 	#scale {width: 300px;max-width: 90vw; margin: auto; margin-top: 1em; margin-bottom: 2em; }
 
 	footer > p:first-child { margin-top: 0; }
@@ -223,7 +225,41 @@
 	</div>
 	
 	<footer class="b1-bg" id="notes">
-		<p>Hex cartogram viewer &copy; 2024 <a href="https://odileeds.org/">Open Innovations</a>. Released under an MIT license. <a href="https://github.com/odileeds/hexmaps">Source on Github</a>.</p>
+		<div class="holder">
+			<h2>Notes</h2>
+			<p>The aim of this tool is to visualise data on a hex cartogram. The data can either be in a CSV file, a simple Google Sheet<a href="#footnote-1" class="footnote">*</a>, or a <a href="hexjson.html">HexJSON</a> file. The URL must be publicly accessible and <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">CORS will need to be enabled</a> on the remote server (otherwise this page can't access the data).</p>
+
+			<h2>Options</h2>
+			<h3>CSVs</h3>
+			<p>If you provide a CSV it should contain a column with the heading <code>id</code> that uniquely identifies each hexagon. Other columns will be added as extra properties of each hexagon. Each row will be a specific hex in the final map.</p>
+			
+			<h3>Hexagon layout</h2>
+			<p>To show your data we need to know where each hexagon should go. There are three ways you could do this:</p>
+			<ol>
+				<li>If your data contains IDs that look like codes for <a href="maps/uk-local-authority-districts-2021.hexjson">UK local authorities</a>, <a href="maps/constituencies.hexjson">UK Parliamentary constituencies</a>, <a href="maps/uk-nuts3.hexjson">UK NUTS3 regions</a>, <a href="maps/uk-upper-tier-local-authorities.hexjson">UK Upper Tier Local Authorities</a>, <a href="https://raw.githubusercontent.com/houseofcommonslibrary/uk-hex-cartograms-noncontiguous/main/hexjson/msoa_hex_coords.hexjson">MSOAs</a>, <a href="maps/nhs-icb-2022.hexjson">NHS Integrated Care Boards</a>, <a href="maps/uk-wards-2022/simple.hexjson">UK wards (2022 - under development)</a>, or <a href="maps/us-states.hexjson">US States</a>, we will try to load a pre-existing <a href="hexjson.html">HexJSON layout</a>. For example, this <a href="https://docs.google.com/spreadsheets/d/1NtcBz6FyfsYwCe6X7_QUCssmhj2wSStSegwc102cH-E/edit#gid=0">Google Sheet contains 2022 ward codes</a> which get detected and an appropriate layout loaded.</li>
+				<li>You could make your own HexJSON layout with <a href="builder.html">our hex builder tool</a>.</li>
+				<li>You could add <code>q</code> (column) and <code>r</code> (row) columns to your data to explicitly set your coordinates for each hexagon. These will be interpreted as an <code>odd-r</code> layout; pointy-topped hexes where odd-numbered rows shift to the right.</li>
+			</ol>
+			
+			<h3>Colours</h3>
+			<p>Hexagons can be coloured by any numeric column in your data. For instance, if your CSV file contains a column titled <code>Population</code> you could choose this attribute and set the colour scale to <code>Viridis</code>. The range will be calculated from the data and rounded to "nicer" values. These colour scales are available:</p>
+			<div id="scale-names"></div>
+
+			<h2 id="export">Exporting the map</h2>
+			<p>Use the <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"></path><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"></path></svg> menu to export the map in one of four ways:</p>
+			<ol style="margin: 1em 0 1em 2em;">
+				<li><strong>HexJSON</strong> - This creates a text file representation of your data and hex layout.</li>
+				<li><strong>SVG</strong> - This will save the image as a scalable vector graphic.</li>
+				<li><strong>PNG</strong> - This will save the map as an image that you can use elsewhere. It is useful for screenshots.</li>
+				<li><strong>GeoJSON</strong> - A cartogram is not geographic but some people have requested "geographic formats" so they can use these hex cartograms with specific GIS software. To make it "geographic" we've done a very simple projection at Null Island (0&deg;, 0&deg;) keeping the result to approximately 0.1&deg;&times;0.1&deg; to try to reduce distortions.</li>
+			</ol>
+			<p>If you output as anything other than HexJSON, you won't be able to load it back into this tool.</p>
+
+			<hr />
+			<p id="footnote-1">* The Google Sheet must be public and very straightforward. It must consist of one Sheet with a basic table starting in the first cell. There should be one header row at the top. It shouldn't contain rows that aren't the header or the data.</p>
+			<hr />
+			<p>Hex cartogram viewer &copy; 2024 <a href="https://odileeds.org/">Open Innovations</a>. Released under an MIT license. <a href="https://github.com/odileeds/hexmaps">Source on Github</a>.</p>
+		</div>
 	</footer>
 
 	<script src="https://open-innovations.org/resources/oi.log.js"></script>
