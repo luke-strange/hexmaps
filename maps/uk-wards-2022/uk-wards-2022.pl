@@ -12,7 +12,7 @@ if($ARGV[0] eq "split"){
 	combineRegions();
 }
 
-
+simplify();
 
 
 
@@ -47,6 +47,26 @@ sub makeJSON {
 	$txt =~ s/\" \},/\"\},/g;
 	
 	return $txt;
+}
+
+sub simplify {
+	print "Simplifying the content of $hexjsonfile\n";
+	my ($regions,$id,$region,$fh);
+	my $hexjson = getJSON($hexjsonfile);
+	
+	foreach $id (keys(%{$hexjson->{'hexes'}})){
+		foreach $d (keys(%{$hexjson->{'hexes'}{$id}})){
+			if($d ne "q" && $d ne "r"){
+				delete $hexjson->{'hexes'}{$id}{$d};
+			}
+		}
+	}
+	my $simple = makeJSON($hexjson);
+	$simple =~ s/\t//gs;
+	$simple =~ s/ \}/\}/gs;
+	open($fh,">","simple.hexjson");
+	print $fh $simple;
+	close($fh);
 }
 
 sub splitRegions {
