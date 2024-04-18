@@ -127,6 +127,9 @@
 		// Update colour scales
 		for(var s in scales) this.colours.addScale(s,scales[s]);
 
+		// Create the menu bar
+		this.menubar = new Menubar(document.getElementById('navigation'));
+
 		// Update values
 		if(this.query.colourscale) document.getElementById('colourscale').value = this.query.colourscale;
 		if(this.query.url) document.getElementById('url').value = this.query.url;
@@ -135,10 +138,6 @@
 		if(this.query.labels) addOptionTo(document.getElementById('labels'),this.query.labels,this.query.labels,true);
 		if(this.query.tooltips) addOptionTo(document.getElementById('tooltips'),this.query.tooltips,this.query.tooltips,true);
 		if(this.query.borders) document.getElementById('borders').checked = 'checked';
-
-		addEv('click',document.querySelector('#menu-options'),{this:this},function(e){ this.toggleMenu("options"); this.updateOptionsFromForm(); });
-		addEv('click',document.querySelector('#menu-save'),{this:this},function(e){ this.toggleMenu("saves"); });
-		addEv('click',document.querySelector('#menu-link'),{this:this},function(e){ this.toggleMenu("link"); });
 
 		this.loadData = function(url){
 			this.toload++;
@@ -204,10 +203,6 @@
 			// Get the HexJSON file if we have one
 			if(this.options.hexjson) this.loadHexJSON(this.options.hexjson);
 
-			if(this.toload==0){
-				document.getElementById('loader').innerHTML = '<div class="loader">Nothing to load. Please use the options in the top right to set your data file.</div>';
-			}
-			
 			/* Add events to form fields */
 			addEv('change',document.getElementById('borders'),{this:this},function(e){
 				this.updateOptionsFromForm();
@@ -234,14 +229,7 @@
 			if(this.saveable){
 				var div = document.createElement('div');
 				div.classList.add('save');
-				div.innerHTML = `<p style="color:#999;">Only the HexJSON format can be reloaded in this tool for further editing.</p>
-					<div id="save-primary" style="font-size:1.4em;">
-						<button class="c10-bg" id="save-hex">HexJSON</button>
-						<button class="c8-bg" id="save-svg">SVG</button>
-						<button class="c8-bg" id="save-geo">GeoJSON</button>
-						<button class="c8-bg" id="save-png">PNG</button>
-					</div>`;
-				div.innerHTML += '<div id="save-primary" style="font-size:1.4em;"></div>';
+				div.innerHTML += '<button class="c10-bg" id="save-hex">HexJSON</button><button class="c8-bg" id="save-svg">SVG</button><button class="c8-bg" id="save-geo">GeoJSON</button><button class="c8-bg" id="save-png">PNG</button>';
 
 				document.getElementById('saves').appendChild(div);
 
@@ -250,6 +238,13 @@
 				div.querySelector('#save-geo').addEventListener('click',function(){ _obj.saveGeoJSON(); });
 				div.querySelector('#save-png').addEventListener('click',function(){ saveDOMImage(el, { "file": "hexmap.png" }); });
 			}
+
+			if(this.toload==0){
+				document.getElementById('loader').innerHTML = '<div class="loader">Nothing to load. Please provide a CSV or HexJSON file.</div>';
+				this.menubar.toggle(document.getElementById('menu-options'));
+				document.getElementById('url').classList.add('required');
+			}
+
 			return this;
 		};
 		
@@ -264,32 +259,6 @@
 			this.options.borders = (document.getElementById('borders').checked);
 			return this;
 		};
-		this.hideMenu = function(id){
-			var el = document.getElementById(id);
-			if(el) el.style.display = "none";
-			return this;
-		};
-		this.showMenu = function(id){
-			var el = document.getElementById(id);
-			if(el) el.style.display = "";
-			return this;
-		};
-		this.toggleMenu = function(id){
-			msg.log("toggleMenu",id);
-			var panels = document.querySelectorAll('.menu-panel');
-			var el = document.getElementById(id);
-			for(var p = 0; p < panels.length; p++){
-				if(panels[p]==el){
-					if(isVisible(el)) el.style.display = "none";
-					else el.style.display = "";
-				}else{
-					panels[p].style.display = "none";
-				}
-			}
-			return this;			
-		};
-
-		this.hideMenu("options").hideMenu("saves").hideMenu("link");
 
 		this.summariseData = function(){
 			
@@ -783,6 +752,44 @@
 			return this;
 		};
 
+		return this;
+	}
+
+	function Menubar(el,attr){
+		if(!attr) attr = {'on':['on','b5-bg'],'off':['off','b1-bg']};
+		var is = el.querySelectorAll('[role=menuitem]');
+		var items = [];
+		for(var i = 0; i < is.length; i++){
+			items.push({
+				'btn':is[i],
+				'panel':document.getElementById(is[i].getAttribute('aria-controls'))
+			});
+		}
+		this.hide = function(item){
+			item.btn.classList.remove(...attr.on);
+			item.btn.classList.add(...attr.off);
+			item.panel.style.display = "none";
+			return this;
+		}
+		this.show = function(item){
+			item.panel.style.display = "";
+			item.btn.classList.remove(...attr.off);
+			item.btn.classList.add(...attr.on);
+			return this;
+		}
+		this.toggle = function(btn){
+			for(var i = 0; i < items.length; i++){
+				if(btn==items[i].btn){
+					if(isVisible(items[i].panel)) this.hide(items[i]);
+					else this.show(items[i]);
+				}else this.hide(items[i]);
+			}
+		};
+		for(var i = 0; i < items.length; i++){
+			if(items[i].panel) addEv('click',items[i].btn,{this:this,btn:items[i].btn},function(e){ this.toggle(e.data.btn); });
+			// Turn the menu item off
+			this.hide(items[i]);
+		}
 		return this;
 	}
 

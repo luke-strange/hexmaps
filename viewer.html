@@ -24,38 +24,39 @@
 	<style>
 	/* Header styles */
 	header { display: flex; flex-direction: columns; }
-	header h1 { float: left; padding: 1rem; display: inline-block; position: relative; font-size: 1.4rem; }
+	header h1 { padding: 1rem; display: inline-block; position: relative; font-size: 1.4rem; }
 	header h1 img { margin-right: 0.25em; float:left; width:1em;height:1em; }
 	header .navigation { flex-grow: 1; font-size: 1.5rem; text-align: right; }
-	header .navigation button[aria-expanded] {
+	header .navigation button {
 		height: 100%;
 		aspect-ratio: 1/1;
-		display: flex;
-		flex-direction: column;
 		justify-content: space-between;
 		border: none;
 		padding: 0;
-		background-color: inherit;
 		color: inherit;
-		float: right;
 		position: relative;
 	}
+	header .navigation button.on:focus { background: #dfdfdf!important; }
+	header .navigation button.on svg { fill: black; }
 	header .navigation button svg { position: absolute; width: 1.25em!important; height:1.25em!important; top: 50%; left: 50%; max-height: 75%; transform: translate3d(-50%,-50%,0); }
 	#menu { position: relative; }
 	.menu-panel { min-width: 300px; max-width: 90vw; z-index: 1000; position: absolute; right: 0; top: 0; }
 	.menu-panel .row { margin-bottom: 1em; text-align: left; }
 	.menu-panel .row label { display: block; }
 	.menu-panel .row:last-child { margin-bottom: 0; }
-	#options code { background: white; }
-	#options form { position: relative; }
-	#options input, #options select {
+	.menu-panel code { background: white; }
+	.menu-panel form { position: relative; }
+	.menu-panel input, #options select {
 		width: 100%;
 		line-height: 2em;
 		height: 2em;
 		min-width: 2em;
 		font-size: 1em;
+		border-radius: 4px;
+		border: 1px solid #999;
 	}
-	#options input[type=checkbox] { width: auto; }
+	.menu-panel input[type=checkbox] { width: auto; }
+	.menu-panel input.required, .menu-panel input[required] { outline: 2px solid red; }
 
 
 	.loader { position: relative; text-align: center; }
@@ -80,8 +81,8 @@
 	.message { padding: 0.25em 0.5em; font-size: 1em; }
 	.info { background: #e7f2fa; color: #2980b9; }
 
-	.save { text-align: center; }
-	.save button { margin-right: 0.25em; }
+	.save { text-align: left; }
+	.save button { margin-right: 0.25rem; font-size: 1.4rem; }
 
 	#option_form label { font-weight: bold; font-family: Poppins; } 
 	#option_form p.hint { margin-bottom: 0.25em; }
@@ -121,21 +122,19 @@
 	
 		<header class="b1-bg">
 			<h1><a href="https://open-innovations.org/projects/hexmaps/"><img src="https://open-innovations.org/resources/images/logos/oi-square-10.svg" /></a> Hex viewer</h1>
-			<nav id="navigation" class="navigation">
-				<button aria-expanded="false" aria-label="Options" id="menu-options">
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16">
-						<path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
+			<nav id="navigation" class="navigation" role="menubar">
+				<button aria-label="Share" aria-controls="link" id="menu-link" role="menuitem">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share-fill" viewBox="0 0 16 16">
+						<path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5"/>
 					</svg>
-				</button>
-				<button aria-expanded="false" aria-label="Save" id="menu-save">
+				</button><button aria-label="Save" aria-controls="saves" id="menu-save" role="menuitem">
 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
 						<path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
 						<path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
 					</svg>
-				</button>
-				<button aria-expanded="false" aria-label="Share" id="menu-link">
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share-fill" viewBox="0 0 16 16">
-						<path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5"/>
+				</button><button aria-label="Options" aria-controls="options" id="menu-options" role="menuitem">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16">
+						<path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
 					</svg>
 				</button>
 			</nav>
@@ -148,6 +147,7 @@
 			</div>
 			<div id="saves" class="b5-bg padded menu-panel">
 				<h2>Save</h2>
+				<p>Only the HexJSON format can be reloaded in this tool for further editing.</p>
 			</div>
 			<div id="options" class="b5-bg padded menu-panel">
 				<h2>Options</h2>
@@ -207,7 +207,7 @@
 						<label for="borders">Show borders</label><input type="checkbox" id="borders" name="borders"></select>
 					</div>
 					<button id="btnSubmit" type="submit" class="button c10-bg">Update</button>
-					<button id="reset" type="reset" class="c8-bg" style="float:right;">Reset</button>
+					<!--<button id="reset" type="reset" class="c8-bg" style="float:right;">Reset</button>-->
 				</form>
 			</div>
 		</div>
