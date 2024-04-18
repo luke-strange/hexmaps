@@ -472,7 +472,7 @@
 						'format': function(txt,attr){
 							if(_obj.options.tooltips in attr.hex) txt = attr.hex[_obj.options.tooltips];
 							txt += "";
-							return txt;
+							return txt.replace(/\\n/g,"<br />");
 						}
 					},
 					'style': {
