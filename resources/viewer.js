@@ -162,7 +162,7 @@
 				this.loaded++;
 				if(this.loaded==this.toload) this.process();
 				msg.remove('load-data');
-				msg.info('Loaded CSV from <em>'+url+'</em>'+(url.indexOf('http')==0 ? ' ⚠️ external source':''));
+				//msg.info('Loaded CSV from <em>'+url+'</em>'+(url.indexOf('http')==0 ? ' ⚠️ external source':''));
 			}).catch(error => {
 				msg.remove('load-data');
 				msg.error('There has been a problem loading CSV data from <em>%c'+this.options.url+'%c</em>. It may not be publicly accessible or have some other issue.','font-style:italic;','font-style:normal;',{'fade':20000,'error':error});
@@ -182,7 +182,7 @@
 				this.loaded++;
 				if(this.loaded==this.toload) this.process();
 				msg.remove('load-hexjson');
-				msg.info('Loaded HexJSON layout from <em>'+url+'</em>'+(url.indexOf('http')==0 ? ' ⚠️ external source':''));
+				//msg.info('Loaded HexJSON layout from <em>'+url+'</em>'+(url.indexOf('http')==0 ? ' ⚠️ external source':''));
 			}).catch(error => {
 				msg.remove('load-hexjson');
 				msg.error('There has been a problem loading the HexJSON from <em>%c'+url+'%c</em>','font-style:italic;','font-style:normal;',{'fade':10000,'error':error});
