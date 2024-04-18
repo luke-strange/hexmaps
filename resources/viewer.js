@@ -289,9 +289,9 @@
 					'hexjson': 'maps/uk-wards-2022/simple.hexjson'
 				},
 				'LAD':{
-					'title': 'Local Authority Districts (2021)',
+					'title': 'Local Authority Districts (2023)',
 					'patterns':[/^E06[0-9]{6}$/,/^W06[0-9]{6}$/,/^S12[0-9]{6}$/,/^E07[0-9]{6}$/,/^E08[0-9]{6}$/,/^E09[0-9]{6}$/],
-					'hexjson': 'https://raw.githubusercontent.com/odileeds/hexmaps/gh-pages/maps/uk-local-authority-districts-2021.hexjson'
+					'hexjson': 'https://raw.githubusercontent.com/odileeds/hexmaps/gh-pages/maps/uk-local-authority-districts-2023.hexjson'
 				},
 				'NUTS3':{
 					'title': 'NUTS3 regions',
