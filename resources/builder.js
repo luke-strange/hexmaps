@@ -71,7 +71,7 @@ function HexBuilder(el,attr){
 				'padding':padding,
 				'minFontSize': 0,
 				'grid': { 'show': true },
-				'label': { 'show': this.query.labels },
+				'label': { 'show': this.query.labels, 'clip':true },
 				'style': {
 					'selected':{'fill-opacity':1, 'fill':'' },
 					'default':{'fill-opacity':1,'fill':'#722EA5','font-size':side/4},
@@ -313,7 +313,7 @@ function HexBuilder(el,attr){
 		d = clone(data);
 		if(typeof d==="string") l = d;
 		else{
-			l = (d.title||d.name||d.n);
+			l = (d.title||d.name||d.n||"?");
 			if(typeof l==="undefined" && d[this.typ.name]) l = d[this.typ.name];
 			if(typeof l==="undefined") l = "";
 			if(!short){
@@ -474,12 +474,12 @@ function HexBuilder(el,attr){
 					'title':'Parliamentary Constituencies (2019)',
 					'patterns':[/^E14[0-9]{6}$/,/^W07[0-9]{6}$/,/^S14[0-9]{6}$/,/^N06[0-9]{6}$/],
 					'hexjson':'https://raw.githubusercontent.com/odileeds/hexmaps/gh-pages/maps/constituencies.hexjson'
-				},/*
+				},
 				'WD':{
 					'title': 'Wards (2022)',
 					'patterns':[/^E05[0-9]{6}$/,/^W05[0-9]{6}$/,/^S13[0-9]{6}$/,/^N08[0-9]{6}$/],
-					'hexjson': 'https://raw.githubusercontent.com/odileeds/hexmaps/gh-pages/maps/uk-wards-2022.hexjson'
-				},*/
+					'hexjson': 'maps/uk-wards-2022/simple.hexjson'
+				},
 				'LAD':{
 					'title': 'Local Authority Districts (2021)',
 					'patterns':[/^E06[0-9]{6}$/,/^W06[0-9]{6}$/,/^S12[0-9]{6}$/,/^E07[0-9]{6}$/,/^E08[0-9]{6}$/,/^E09[0-9]{6}$/],
