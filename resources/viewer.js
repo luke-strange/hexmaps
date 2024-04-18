@@ -248,7 +248,7 @@
 			}
 
 			if(this.toload==0){
-				document.getElementById('loader').innerHTML = '<div class="loader">Nothing to load. Please provide a CSV or HexJSON file.</div>';
+				document.getElementById('loader').innerHTML = '<div class="loader">Please provide a CSV or HexJSON file to get started.</div>';
 				this.menubar.toggle(document.getElementById('menu-options'));
 				document.getElementById('url').classList.add('required');
 			}
