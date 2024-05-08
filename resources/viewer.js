@@ -253,9 +253,10 @@
 			}
 
 			if(this.toload==0){
-				document.getElementById('loader').innerHTML = '<div class="loader">Please provide a CSV or HexJSON file to get started.</div>';
+				document.getElementById('loader').innerHTML = '<div class="loader">Please provide a CSV (or HexJSON layout) to get started...</div>';
 				this.menubar.toggle(document.getElementById('menu-options'));
 				document.getElementById('url').classList.add('required');
+				this.updateLink();
 			}
 
 			return this;
@@ -661,12 +662,16 @@
 			msg.log('updateLink');
 			var el = document.getElementById('share');
 			if(el){
-				if(this.options.url.indexOf('http')==0){
-					//document.getElementById('menu-link').style.display = "";
-					el.innerHTML = '<label for="view">Link to this view:</label><input type="text" class="view" id="view" onClick="this.setSelectionRange(0, this.value.length)" value="'+location.protocol + '//' + location.host + location.pathname+'?'+encodeURI(this.options.url)+'&hexson='+encodeURI(this.options.hexjson)+'&colourscale='+encodeURI(this.options.colourscale)+'&attribute='+encodeURI(this.options.attribute)+'&labels='+this.options.labels+'&tooltips='+this.options.tooltips+'&borders='+this.options.borders+'" />';
+				if(this.options.url){
+					if(this.options.url.indexOf('http')==0){
+						//document.getElementById('menu-link').style.display = "";
+						el.innerHTML = '<label for="view">Link to this view:</label><input type="text" class="view" id="view" onClick="this.setSelectionRange(0, this.value.length)" value="'+location.protocol + '//' + location.host + location.pathname+'?'+encodeURI(this.options.url)+'&hexson='+encodeURI(this.options.hexjson)+'&colourscale='+encodeURI(this.options.colourscale)+'&attribute='+encodeURI(this.options.attribute)+'&labels='+this.options.labels+'&tooltips='+this.options.tooltips+'&borders='+this.options.borders+'" />';
+					}else{
+						//document.getElementById('menu-link').style.display = "none";
+						el.innerHTML = '<div class="warning padded">It is not possible to create a shareable link for local files.</div>';
+					}
 				}else{
-					//document.getElementById('menu-link').style.display = "none";
-					el.innerHTML = '<div class="warning padded">It is not possible to create a shareable link for local files.</div>';
+					el.innerHTML = '<div class="warning padded">No CSV file has been loaded so there is nothing to share.</div>'
 				}
 			}else{
 				msg.warn('No link input to write to.');
