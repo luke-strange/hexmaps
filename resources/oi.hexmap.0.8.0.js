@@ -1,5 +1,7 @@
 /**
 	OI hex map in SVG
+	0.8.1:
+	    - Can set the label and tooltip keys using updateLabels(labelkey,tooltipkey)
 	0.8.0:
 	    - Update DOM
 	0.7.0:
@@ -71,7 +73,7 @@
 	//      size: the size of a hexagon in pixels
 	function HexMap(el,attr){
 
-		this.version = "0.7.0";
+		this.version = "0.8.1";
 		if(!attr) attr  = {};
 		this._attr = attr;
 		this.title = "OI HexMap";
@@ -583,13 +585,21 @@
 			return this;
 		};
 
-		this.updateLabels = function(){
-			var h,r;
+		this.updateLabels = function(lkey,tkey){
+			var h,r,l,t;
 			for(r in this.areas){
 				if(this.mapping.hexes[r]){
 					h = this.areas[r].labelprops;
-					this.areas[r].label.innerHTML = this.options.formatLabel((this.mapping.hexes[r].n||this.mapping.hexes[r].msoa_name_hcl||"")+"",{'x':h.x,'y':h.y,'hex':this.mapping.hexes[r],'size':this.properties.size,'font-size':this.properties.s.sin});
-					this.areas[r].tooltip.innerHTML = this.options.formatTooltip((this.mapping.hexes[r].Tooltip||this.mapping.hexes[r].tooltip||this.mapping.hexes[r].n||this.mapping.hexes[r].msoa_name_hcl||"")+"",{'x':h.x,'y':h.y,'hex':this.mapping.hexes[r],'size':this.properties.size,'font-size':parseFloat(this.style.default['font-size'])});
+
+					l = '';
+					if(typeof lkey==="string") l = (lkey in this.mapping.hexes[r] ? this.mapping.hexes[r][lkey] : "");
+					else l = this.mapping.hexes[r].n||this.mapping.hexes[r].msoa_name_hcl||"";
+					this.areas[r].label.innerHTML = this.options.formatLabel(l,{'x':h.x,'y':h.y,'hex':this.mapping.hexes[r],'size':this.properties.size,'font-size':this.properties.s.sin});
+
+					t = '';
+					if(typeof tkey==="string") t = (tkey in this.mapping.hexes[r] ? this.mapping.hexes[r][tkey] : "");
+					else t =  this.mapping.hexes[r].Tooltip||this.mapping.hexes[r].tooltip||this.mapping.hexes[r].n||this.mapping.hexes[r].msoa_name_hcl||"";
+					this.areas[r].tooltip.innerHTML = this.options.formatTooltip(t,{'x':h.x,'y':h.y,'hex':this.mapping.hexes[r],'size':this.properties.size,'font-size':parseFloat(this.style.default['font-size'])});
 				}
 			}
 			return this;

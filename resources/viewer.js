@@ -335,6 +335,7 @@
 					gss[code].matches = {};
 				}
 			}
+
 			for(k in this.data[0]){
 				if(k.toLowerCase()=="id" || k.toLowerCase()=="gss-code" || k.toLowerCase()=="code") id = k;
 				if(k.toLowerCase()=="r") r = k;
@@ -384,6 +385,11 @@
 		this.process = function(){
 
 			var i,d,id;
+			if(!this.data){
+				msg.error('No data file has been provided.',{'fade':10000});
+				return this;
+			}
+
 			var summary = this.summariseData();
 
 			msg.log('summary',summary);
@@ -651,7 +657,7 @@
 		
 		this.setLabels = function(){
 			msg.log('setLabels');
-			if(this.hex) this.hex.updateLabels();
+			if(this.hex) this.hex.updateLabels(this.options.labels,this.options.tooltips);
 			this.updateLink();
 			
 			this.setColours();
