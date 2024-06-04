@@ -665,7 +665,7 @@
 				if(this.options.url){
 					if(this.options.url.indexOf('http')==0){
 						//document.getElementById('menu-link').style.display = "";
-						el.innerHTML = '<label for="view">Link to this view:</label><input type="text" class="view" id="view" onClick="this.setSelectionRange(0, this.value.length)" value="'+location.protocol + '//' + location.host + location.pathname+'?'+encodeURI(this.options.url)+'&hexson='+encodeURI(this.options.hexjson)+'&colourscale='+encodeURI(this.options.colourscale)+'&attribute='+encodeURI(this.options.attribute)+'&labels='+this.options.labels+'&tooltips='+this.options.tooltips+'&borders='+this.options.borders+'" />';
+						el.innerHTML = '<label for="view">Link to this view:</label><input type="text" class="view" id="view" onClick="this.setSelectionRange(0, this.value.length)" value="'+location.protocol + '//' + location.host + location.pathname+'?'+encodeURI(this.options.url)+'&hexjson='+encodeURI(this.options.hexjson)+'&colourscale='+encodeURI(this.options.colourscale)+'&attribute='+encodeURI(this.options.attribute)+'&labels='+this.options.labels+'&tooltips='+this.options.tooltips+'&borders='+this.options.borders+'" />';
 					}else{
 						//document.getElementById('menu-link').style.display = "none";
 						el.innerHTML = '<div class="warning padded">It is not possible to create a shareable link for local files.</div>';
