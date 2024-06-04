@@ -199,7 +199,7 @@
 
 			this.toload = 0;
 			this.loaded = 0;
-			
+
 			// If the CSV seems to be HexJSON we'll move it
 			if(this.options.url.indexOf(".hexjson")>=0 && !this.options.hexjson){
 				this.options.hexjson = this.options.url;
@@ -253,7 +253,7 @@
 			}
 
 			if(this.toload==0){
-				document.getElementById('loader').innerHTML = '<div class="loader">Please provide a CSV (or HexJSON layout) to get started...</div>';
+				document.getElementById('loader').innerHTML = '<div class="loader">Please provide a CSV (or HexJSON layout) to get started...<br />Or <a href="?url=test-2024-candidates.csv&hexjson=https%3A%2F%2Fraw.githubusercontent.com%2Fodileeds%2Fhexmaps%2Fgh-pages%2Fmaps%2Fuk-constituencies-2023.hexjson&colourscale=Viridis&attribute=Number+of+Candidates&labels=&tooltips=Name">load an example with UK constituencies</a>.</div>';
 				this.menubar.toggle(document.getElementById('menu-options'));
 				document.getElementById('url').classList.add('required');
 				this.updateLink();
