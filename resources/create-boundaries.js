@@ -182,7 +182,7 @@
 			if(!str){
 				var hexjson = {};
 				if(typeof this.hex.mapping.version==="string") hexjson.version = this.hex.mapping.version;
-				if(typeof this.hex.mapping.version==="string") hexjson.layout = this.hex.mapping.layout;
+				if(typeof this.hex.mapping.layout==="string") hexjson.layout = this.hex.mapping.layout;
 				if(typeof this.hex.mapping.hexes==="object") hexjson.hexes = this.hex.mapping.hexes;
 				if(typeof this.hex.mapping.boundaries==="object") hexjson.boundaries = this.hex.mapping.boundaries;
 				
@@ -191,7 +191,7 @@
 				str = str.replace(/\n\t{2,}\}/gs,"}");
 				str = str.replace(/": /g,'":');
 			}
-			if(!file) file = "test.hexjson";
+			if(!file) file = this.options.hexjson.replace(/.*\/(.*)$/,function(m,p1){ return p1; })||"test.hexjson";
 			if(!type) type = 'text/application/json';
 
 			var textFileAsBlob = new Blob([str], {type:type});
@@ -279,7 +279,7 @@
 			this.hex.drawBoundaries();
 			this.hex.updateBoundaries(function(n,props){
 				if(props.type=="_highlight") return {'stroke':'black','stroke-width':4,'stroke-linecap':'round','opacity':1};
-				else return {'stroke':'black','stroke-width':2,'stroke-linecap':'round','opacity':0.9};
+				else return {'stroke':'#333','stroke-width':2,'stroke-linecap':'round','opacity':0.9};
 			});
 			if("_fake" in this.hex.mapping.boundaries) delete this.hex.mapping.boundaries._fake;
 			return this;
