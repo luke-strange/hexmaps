@@ -606,18 +606,22 @@
 						var groups = this.el.querySelectorAll('.data-layer .series, .oi-map-inner .markers');
 						// Add tooltip groups
 						for(var g = 0; g < groups.length; g++) OI.Tooltips.addGroup(groups[g],'.area, .hex, .marker, .line',props);
+
+						// Force setting the borders (in case it takes a while to load
+						_obj.setBorders();
 					}
 				});
 			}
 
-			this.setBorders();
 			this.setLabels();
+			this.setBorders();
 
 			return this;
 		};
 		
 		this.setBorders = function(){
 			msg.log('setBorders',this.hex);
+			console.log('setBorders',this.options.borders);
 			if(this.hex){
 				var cells = document.querySelectorAll('.data-layer .hex[role=cell] path');
 				for(var c = 0; c < cells.length; c++) cells[c].style['stroke-width'] = (this.options.borders) ? '2px' : '0px';
