@@ -277,12 +277,18 @@
 		this.summariseData = function(){
 			
 			// https://en.wikipedia.org/wiki/ONS_coding_system
-			var gss,code,j,k,m,got,typ,n,id="",q="",r="",label="",tooltip="",name="";
+			var gss,code,j,k,m,got,typ,n,t,tot,id="",q="",r="",label="",tooltip="",name="";
 			gss = {
-				'PCON':{
+				'PCON19':{
 					'title':'Parliamentary Constituencies (2019)',
 					'patterns':[/^E14[0-9]{6}$/,/^W07[0-9]{6}$/,/^S14[0-9]{6}$/,/^N06[0-9]{6}$/],
 					'hexjson':'https://raw.githubusercontent.com/odileeds/hexmaps/gh-pages/maps/constituencies.hexjson'
+				},
+				'PCON24':{
+					'title':'Parliamentary Constituencies (2024)',
+					// We will test for the same patterns but add extra checks for a selection of new constituencies
+					'patterns':[/^E14[0-9]{6}$/,/^W07[0-9]{6}$/,/^S14[0-9]{6}$/,/^N06[0-9]{6}$/,/E14001224/,/E14001325/,/W07000107/,/S14000104/],
+					'hexjson':'https://raw.githubusercontent.com/odileeds/hexmaps/gh-pages/maps/uk-constituencies-2023.hexjson'
 				},
 				'WD':{
 					'title': 'Wards (2022)',
@@ -332,10 +338,10 @@
 			for(code in gss){
 				if(code in gss){
 					gss[code].count = 0;
+					gss[code].totalmatches = 0;
 					gss[code].matches = {};
 				}
 			}
-
 			for(k in this.data[0]){
 				if(k.toLowerCase()=="id" || k.toLowerCase()=="gss-code" || k.toLowerCase()=="code") id = k;
 				if(k.toLowerCase()=="r") r = k;
@@ -354,6 +360,7 @@
 									if(this.data[j][k].match(gss[code].patterns[m])){
 										got = true;
 										gss[code].matches[this.data[j][k]] = true;
+										gss[code].totalmatches++;
 										gss[code].id = k;
 									}
 								}
@@ -364,10 +371,12 @@
 				}
 			}
 			typ = {'id':'','count':0};
-			for(var t in gss){
-				n = Object.keys(gss[t].matches).length;
+			for(t in gss){
+				//n = Object.keys(gss[t].matches).length;
+				n = gss[t].totalmatches;
 				if(n > typ.count) typ = {'id':t,'count':n,'original':gss[t].id};
 			}
+
 			if(!id && typ.original) id = typ.original;
 			var out = {'id':id,'ids':[]};
 			if(q) out.q = q;
