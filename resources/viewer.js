@@ -609,6 +609,7 @@
 
 						// Force setting the borders (in case it takes a while to load
 						_obj.setBorders();
+						_obj.setLabels();
 					}
 				});
 			}
