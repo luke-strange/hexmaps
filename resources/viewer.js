@@ -253,7 +253,7 @@
 			}
 
 			if(this.toload==0){
-				document.getElementById('loader').innerHTML = '<div class="loader">Please provide a CSV (or HexJSON layout) to get started...<br />Or <a href="?url=test-2024-candidates.csv&hexjson=https%3A%2F%2Fraw.githubusercontent.com%2Fodileeds%2Fhexmaps%2Fgh-pages%2Fmaps%2Fuk-constituencies-2023.hexjson&colourscale=Viridis&attribute=Number&labels=&tooltips=Number+of+Candidates">load an example with UK constituencies</a>.</div>';
+				document.getElementById('loader').innerHTML = '<div class="loader"><p>Please provide a CSV (or HexJSON layout) to get started...<br />Or try one of these examples:</p><ul class="examples"><li><a href="?url=test-2024-candidates.csv&hexjson=https%3A%2F%2Fraw.githubusercontent.com%2Fodileeds%2Fhexmaps%2Fgh-pages%2Fmaps%2Fuk-constituencies-2023.hexjson&colourscale=Viridis&attribute=Number&labels=&tooltips=Number+of+Candidates">UK constituencies</a></li><li><a href="?url=data%2Fwards-leeds.csv&hexjson=&colourscale=Viridis&attribute=pop&labels=name&tooltips=pop#">Leeds wards coloured by population</a></li></ul></div>';
 				this.menubar.toggle(document.getElementById('menu-options'));
 				document.getElementById('url').classList.add('required');
 				this.updateLink();
