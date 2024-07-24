@@ -144,8 +144,11 @@
 		content:'\26a0';
 		margin-right: 0.5em;
 	}
-	.q { fill: #0DBC37; }
-	.r { fill: #178CFF; }
+	.hex-label, .hexagon { font-family: Poppins; }
+ 	.q { fill: #0DBC37; color: #0DBC37; }
+	.r { fill: #178CFF; color: #178CFF; }
+	.e { fill: #722EA5; color: #722EA5; }
+	code.q, code.r, code.e { font-weight: bold; }
 	.q-axis-same .hex-cell { fill: hsl( 90, 20%, 87%); }
 	.r-axis-same .hex-cell { fill: hsl(200, 15%, 90%); }
 	.q-axis-same.r-axis-same .hex-cell { fill: hsl(60, 100%, 85%); }
@@ -294,17 +297,18 @@
 		"E14000531": {"q":-3,"r":-1}
 	}
 }</code></pre>
-			<p>The <code>layout</code> property should be one of the following <a href="http://www.redblobgames.com/grids/hexagons/#coordinates">coordinate systems</a> (row number increasing vertically):</p>
+			<p>The <code>layout</code> property should be one of the following <a href="http://www.redblobgames.com/grids/hexagons/#coordinates">coordinate systems</a>:</p>
 			<ul class="layouts">
 				<li><div id="odd-r" class="hexlayout"></div><code>odd-r</code> (pointy-topped)<br />odd numbered rows shift right</li>
 				<li><div id="even-r" class="hexlayout"></div><code>even-r</code> (pointy-topped)<br />even numbered rows shift right</li>
 				<li><div id="odd-q" class="hexlayout"></div><code>odd-q</code> (flat-topped)<br />odd numbered columns shift up</li>
 				<li><div id="even-q" class="hexlayout"></div><code>even-q</code> (flat-topped)<br />even numbered columns shift up</li>
 			</ul>
+			<p>Unlike Red Blob Games, the row number, <code class="r">r</code>, increases vertically. This is to match with conventions used in most cartography (the HexJSON format is inspired by GeoJSON which has -90&deg; at the geometric south pole and +90&deg; at the geometric north pole) and most x-y graphs but differs from conventions in computer graphics.</p>
 			<div class="warning">Note: the shifts in each coordinate system are based on the absolute column/row numbers as specified in the HexJSON file, not on their relative position in a layout. Using absolute numbers ensures that a layout still renders correctly if a column or row is added later.</div>
 			<h2 id="hexes">Adding hexes</h2>
-			<p>The <code>hexes</code> are then defined using unique keys for each. Every hex is positioned by providing column (<code>q</code>) and row (<code>r</code>) coordinates. You don't have to start at 0,0.</p>
-			<p>You can add your own custom data fields to each hex if you want to. Just make sure you don't use the keys <code>q</code> and <code>r</code> as they will be the coordinates e.g.</p>
+			<p>The <code>hexes</code> are then defined using unique keys for each. Every hex is positioned by providing column (<code class="q">q</code>) and row (<code class="r">r</code>) coordinates. You don't have to start at 0,0.</p>
+			<p>You can add your own custom data fields to each hex if you want to. Just make sure you don't use the keys <code class="q">q</code> and <code class="r">r</code> as they will be the coordinates e.g.</p>
 			<pre><code>{
 	"layout": "odd-r",
 	"hexes": {
@@ -329,7 +333,7 @@
 }</code></pre>
 
 			<h2 id="boundaries">Adding boundaries</h2>
-			<p>In version 1.1 (28th February 2024) we have added the concept of boundaries around hexagons. This lets us define, say, a border between two groups of hexagons. You can provide multiple named boundaries using the additional property <code>boundaries</code>. Each boundary should contain an <code>edges</code> array that defines an ordered series of edges to create a line (the line does not have to be continuous). Each item in the array should provide the <code>q</code> and <code>r</code> coordinates of a particular hexagon along with the edge number <code>e</code>. For example:</p>
+			<p>In version 1.1 (28th February 2024) we have added the concept of boundaries around hexagons. This lets us define, say, a border between two groups of hexagons. You can provide multiple named boundaries using the additional property <code>boundaries</code>. Each boundary should contain an <code class="e">edges</code> array that defines an ordered series of edges to create a line (the line does not have to be continuous). Each item in the array should provide the <code class="q">q</code> and <code class="r">r</code> coordinates of a particular hexagon along with the edge number <code class="e">e</code>. For example:</p>
 			
 			<pre><code>{
 	"layout": "odd-r",
@@ -343,7 +347,7 @@
 		}
 	}
 }</code></pre>
-			<p>Edges, <code>e</code>, are numbered from 1 to 6 moving clockwise from the top of the hexagon. Positive numbered edges are drawn in a clockwise sense and negative numbered edges are drawn in an anti-clockwise sense. This should allow continuous lines to be created. </p>
+			<p>Edges, <code class="e">e</code>, are numbered from 1 to 6 moving clockwise from the top of the hexagon. Positive numbered edges are drawn in a clockwise sense and negative numbered edges are drawn in an anti-clockwise sense. This should allow continuous lines to be created. </p>
 			<ul class="boundaries">
 				<li>
 					<svg class="hexagon" xmlns="http://www.w3.org/2000/svg" version="1.1" overflow="visible" viewBox="0 0 70 58" style="max-width:100%;" preserveAspectRatio="xMinYMin meet" vector-effect="non-scaling-stroke">
@@ -365,13 +369,13 @@
 						<g transform-origin="35px 29px" transform="translate(35 29) translate(-21.65 -12.5)">
 							<path d="m 0 0 l 24 0 m 0 0 l -2 1.5 m 2 -1.5 l -2 -1.5" stroke="black" fill="transparent" stroke-linecap="round" transform="rotate(330)" />
 						</g>
-						<text x="35px" y="29px" dominant-baseline="central" text-anchor="middle" font-size="4px">q,r</text>
-						<text x="50px" y="6px" dominant-baseline="central" text-anchor="middle" font-size="4px">e:1</text>
-						<text x="63px" y="29px" dominant-baseline="central" text-anchor="middle" font-size="4px">e:2</text>
-						<text x="50px" y="52px" dominant-baseline="central" text-anchor="middle" font-size="4px">e:3</text>
-						<text x="20px" y="52px" dominant-baseline="central" text-anchor="middle" font-size="4px">e:4</text>
-						<text x="7px" y="29px" dominant-baseline="central" text-anchor="middle" font-size="4px">e:5</text>
-						<text x="20px" y="6px" dominant-baseline="central" text-anchor="middle" font-size="4px">e:6</text>
+						<text x="35px" y="29px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="q">q</tspan>,<tspan class="r">r</tspan></text>
+						<text x="50px" y="6px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="e">e</tspan><tspan>:1</tspan></text>
+						<text x="63px" y="29px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="e">e</tspan><tspan>:2</tspan></text>
+						<text x="50px" y="52px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="e">e</tspan><tspan>:3</tspan></text>
+						<text x="20px" y="52px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="e">e</tspan><tspan>:4</tspan></text>
+						<text x="7px" y="29px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="e">e</tspan><tspan>:5</tspan></text>
+						<text x="20px" y="6px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="e">e</tspan><tspan>:6</tspan></text>
 					</svg>
 					pointy-topped<br />positive edge numbers
 				</li>
@@ -395,13 +399,13 @@
 						<g transform-origin="35px 29px" transform="translate(35 29) translate(-21.65 -12.5)">
 							<path d="m 0 0 l 24 0 m 0 0 l -2 1.5 m 2 -1.5 l -2 -1.5" stroke="black" fill="transparent" stroke-linecap="round" transform="rotate(90)" />
 						</g>
-						<text x="35px" y="29px" dominant-baseline="central" text-anchor="middle" font-size="4px">q,r</text>
-						<text x="50px" y="6px" dominant-baseline="central" text-anchor="middle" font-size="4px">e:-1</text>
-						<text x="63px" y="29px" dominant-baseline="central" text-anchor="middle" font-size="4px">e:-2</text>
-						<text x="50px" y="52px" dominant-baseline="central" text-anchor="middle" font-size="4px">e:-3</text>
-						<text x="20px" y="52px" dominant-baseline="central" text-anchor="middle" font-size="4px">e:-4</text>
-						<text x="7px" y="29px" dominant-baseline="central" text-anchor="middle" font-size="4px">e:-5</text>
-						<text x="20px" y="6px" dominant-baseline="central" text-anchor="middle" font-size="4px">e:-6</text>
+						<text x="35px" y="29px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="q">q</tspan>,<tspan class="r">r</tspan></text>
+						<text x="50px" y="6px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="e">e</tspan><tspan>:-1</tspan></text>
+						<text x="63px" y="29px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="e">e</tspan><tspan>:-2</tspan></text>
+						<text x="50px" y="52px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="e">e</tspan><tspan>:-3</tspan></text>
+						<text x="20px" y="52px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="e">e</tspan><tspan>:-4</tspan></text>
+						<text x="7px" y="29px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="e">e</tspan><tspan>:-5</tspan></text>
+						<text x="20px" y="6px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="e">e</tspan><tspan>:-6</tspan></text>
 					</svg>
 					pointy-topped<br />negative edge numbers
 				</li>
@@ -425,13 +429,13 @@
 						<g transform-origin="35px 29px" transform="translate(35 29) translate(-25 0)">
 							<path d="m 0 0 l 24 0 m 0 0 l -2 1.5 m 2 -1.5 l -2 -1.5" stroke="black" fill="transparent" stroke-linecap="round" transform="rotate(300)" />
 						</g>
-						<text x="35px" y="29px" dominant-baseline="central" text-anchor="middle" font-size="4px">q,r</text>
-						<text x="35px" y="2px" dominant-baseline="central" text-anchor="middle" font-size="4px">e:1</text>
-						<text x="60px" y="16px" dominant-baseline="central" text-anchor="middle" font-size="4px">e:2</text>
-						<text x="60px" y="42px" dominant-baseline="central" text-anchor="middle" font-size="4px">e:3</text>
-						<text x="35px" y="56px" dominant-baseline="central" text-anchor="middle" font-size="4px">e:4</text>
-						<text x="10px" y="42px" dominant-baseline="central" text-anchor="middle" font-size="4px">e:5</text>
-						<text x="10px" y="16px" dominant-baseline="central" text-anchor="middle" font-size="4px">e:6</text>
+						<text x="35px" y="29px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="q">q</tspan>,<tspan class="r">r</tspan></text>
+						<text x="35px" y="2px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="e">e</tspan><tspan>:1</tspan></text>
+						<text x="60px" y="16px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="e">e</tspan><tspan>:2</tspan></text>
+						<text x="60px" y="42px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="e">e</tspan><tspan>:3</tspan></text>
+						<text x="35px" y="56px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="e">e</tspan><tspan>:4</tspan></text>
+						<text x="10px" y="42px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="e">e</tspan><tspan>:5</tspan></text>
+						<text x="10px" y="16px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="e">e</tspan><tspan>:6</tspan></text>
 					</svg>
 					flat-topped<br />positive edge numbers
 				</li>
@@ -455,13 +459,13 @@
 						<g transform-origin="35px 29px" transform="translate(35 29) translate(-25 0)">
 							<path d="m 0 0 l 24 0 m 0 0 l -2 1.5 m 2 -1.5 l -2 -1.5" stroke="black" fill="transparent" stroke-linecap="round" transform="rotate(60)" />
 						</g>
-						<text x="35px" y="29px" dominant-baseline="central" text-anchor="middle" font-size="4px">q,r</text>
-						<text x="35px" y="2px" dominant-baseline="central" text-anchor="middle" font-size="4px">e:1</text>
-						<text x="60px" y="16px" dominant-baseline="central" text-anchor="middle" font-size="4px">e:2</text>
-						<text x="60px" y="42px" dominant-baseline="central" text-anchor="middle" font-size="4px">e:3</text>
-						<text x="35px" y="56px" dominant-baseline="central" text-anchor="middle" font-size="4px">e:4</text>
-						<text x="10px" y="42px" dominant-baseline="central" text-anchor="middle" font-size="4px">e:5</text>
-						<text x="10px" y="16px" dominant-baseline="central" text-anchor="middle" font-size="4px">e:6</text>
+						<text x="35px" y="29px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="q">q</tspan>,<tspan class="r">r</tspan></text>
+						<text x="35px" y="2px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="e">e</tspan><tspan>:1</tspan></text>
+						<text x="60px" y="16px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="e">e</tspan><tspan>:2</tspan></text>
+						<text x="60px" y="42px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="e">e</tspan><tspan>:3</tspan></text>
+						<text x="35px" y="56px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="e">e</tspan><tspan>:4</tspan></text>
+						<text x="10px" y="42px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="e">e</tspan><tspan>:5</tspan></text>
+						<text x="10px" y="16px" dominant-baseline="central" text-anchor="middle" font-size="4px"><tspan class="e">e</tspan><tspan>:6</tspan></text>
 					</svg>
 					flat-topped<br />negative edge numbers
 				</li>
@@ -472,7 +476,7 @@
 				<li>Drawing multiple anti-clockwise edges around the same hexagon is more straightforward.</li>
 				<li>Allowing anti-clockwise edges needs fewer edges to change if you were to switch between even and odd layouts.</li>
 			</ol>
-			<div class="warning">Note: The <code>edges</code> are not required to continue on from each other. That means that a line may contain gaps. So a renderer should check where the end of the last edge finished and the current edge begins to work out if a gap should be left. A renderer may also wish to give users the option to style a specific boundary using its name or any other properties of the boundary.</div>
+			<div class="warning">Note: The <code class="e">edges</code> are not required to continue on from each other. That means that a line may contain gaps. So a renderer should check where the end of the last edge finished and the current edge begins to work out if a gap should be left. A renderer may also wish to give users the option to style a specific boundary using its name or any other properties of the boundary.</div>
 			<p>See <a href="https://open-innovations.github.io/oi.hexmap.js/#ex3">edges being drawn in this example</a>.</p>
 
 			<h2>Using HexJSON</h2>
