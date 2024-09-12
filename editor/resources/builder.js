@@ -757,6 +757,8 @@
 			for(i = 0; i < this.display.hexes.length; i++){
 				d = JSON.parse(JSON.stringify(this.display.hexes[i].getOpts()));
 				id = d.id;
+				d.q = this.display.hexes[i].hex.q;
+				d.r = this.display.hexes[i].hex.r;
 				delete d.id;
 				delete d.layout;
 				json.hexes[id] = d;
