@@ -9,22 +9,22 @@ Wards should be grouped by local authority district with gaps between local auth
 
 To help break up the task into more manageable pieces, the full ward map has been broken up by region. This makes it easier to work on and different people can edit different regions without fear of clashes.
 
-* [E12000001 - North East](https://open-innovations.org/projects/hexmaps/builder.html?maps/uk-wards-2022/E12000001.hexjson&labels=false&borders=false)
-* [E12000002 - North West](https://open-innovations.org/projects/hexmaps/builder.html?maps/uk-wards-2022/E12000002.hexjson&labels=false&borders=false)
-* [E12000003 - Yorkshire and the Humber](https://open-innovations.org/projects/hexmaps/builder.html?maps/uk-wards-2022/E12000003.hexjson&labels=false&borders=false)
-* [E12000004 - East Midlands](https://open-innovations.org/projects/hexmaps/builder.html?maps/uk-wards-2022/E12000004.hexjson&labels=false&borders=false)
-* [E12000005 - West Midlands](https://open-innovations.org/projects/hexmaps/builder.html?maps/uk-wards-2022/E12000005.hexjson&labels=false&borders=false)
-* [E12000006 - East of England](https://open-innovations.org/projects/hexmaps/builder.html?maps/uk-wards-2022/E12000006.hexjson&labels=false&borders=false)
-* [E12000007 - London](https://open-innovations.org/projects/hexmaps/builder.html?maps/uk-wards-2022/E12000007.hexjson&labels=false&borders=false)
-* [E12000008 - South East](https://open-innovations.org/projects/hexmaps/builder.html?maps/uk-wards-2022/E12000008.hexjson&labels=false&borders=false)
-* [E12000009 - South West](https://open-innovations.org/projects/hexmaps/builder.html?maps/uk-wards-2022/E12000009.hexjson&labels=false&borders=false)
-* [N92000002 - Northern Ireland](https://open-innovations.org/projects/hexmaps/builder.html?maps/uk-wards-2022/N92000002.hexjson&labels=false&borders=false)
-* [S92000003 - Scotland](https://open-innovations.org/projects/hexmaps/builder.html?maps/uk-wards-2022/S92000003.hexjson&labels=false&borders=false)
-* [W92000004 - Wales](https://open-innovations.org/projects/hexmaps/builder.html?maps/uk-wards-2022/W92000004.hexjson&labels=false&borders=false)
+* [E12000001 - North East](https://open-innovations.org/projects/hexmaps/editor/?../maps/uk-wards-2022/E12000001.hexjson)
+* [E12000002 - North West](https://open-innovations.org/projects/hexmaps/editor/?../maps/uk-wards-2022/E12000002.hexjson)
+* [E12000003 - Yorkshire and the Humber](https://open-innovations.org/projects/hexmaps/editor/?../maps/uk-wards-2022/E12000003.hexjson)
+* [E12000004 - East Midlands](https://open-innovations.org/projects/hexmaps/editor/?../maps/uk-wards-2022/E12000004.hexjson)
+* [E12000005 - West Midlands](https://open-innovations.org/projects/hexmaps/editor/?../maps/uk-wards-2022/E12000005.hexjson)
+* [E12000006 - East of England](https://open-innovations.org/projects/hexmaps/editor/?../maps/uk-wards-2022/E12000006.hexjson)
+* [E12000007 - London](https://open-innovations.org/projects/hexmaps/editor/?../maps/uk-wards-2022/E12000007.hexjson)
+* [E12000008 - South East](https://open-innovations.org/projects/hexmaps/editor/?../maps/uk-wards-2022/E12000008.hexjson)
+* [E12000009 - South West](https://open-innovations.org/projects/hexmaps/editor/?../maps/uk-wards-2022/E12000009.hexjson)
+* [N92000002 - Northern Ireland](https://open-innovations.org/projects/hexmaps/editor/?../maps/uk-wards-2022/N92000002.hexjson)
+* [S92000003 - Scotland](https://open-innovations.org/projects/hexmaps/editor/?../maps/uk-wards-2022/S92000003.hexjson)
+* [W92000004 - Wales](https://open-innovations.org/projects/hexmaps/editor/?../maps/uk-wards-2022/W92000004.hexjson)
 
 Please edit a region using the hex builder tool, save the output as HexJSON, then over-write the appropriate file in this directory.
 
-The [full map](https://open-innovations.org/projects/hexmaps/builder.html?maps/uk-wards-2022.hexjson&labels=false&borders=false) will be created by combining each of the regions into a final HexJSON file.
+The [full map](https://open-innovations.org/projects/hexmaps/editor/?../maps/uk-wards-2022.hexjson) will be created by combining each of the regions into a final HexJSON file.
 
 The [Wards (May 2022) Boundaries UK BGC V3](https://geoportal.statistics.gov.uk/datasets/ons::wards-may-2022-boundaries-uk-bgc-v3/explore) from the ONS is useful to see the geographic placement of wards. 
 
