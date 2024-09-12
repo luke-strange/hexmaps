@@ -4,7 +4,7 @@ use utf8;
 use JSON::XS;
 use Data::Dumper;
 
-$hexjsonfile = "uk-wards-2024.hexjson";
+$hexjsonfile = "../uk-wards-2024.hexjson";
 
 if($ARGV[0] eq "split"){
 	splitRegions();
@@ -106,7 +106,7 @@ sub combineRegions {
 	}
 	closedir($dh);
 
-	open($fh,">","../uk-wards-2022.hexjson");
+	open($fh,">","../uk-wards-2024.hexjson");
 	print $fh makeJSON($json);
 	close($fh);
 }
