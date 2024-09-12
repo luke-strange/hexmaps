@@ -45,7 +45,7 @@ This is a list of local authority districts and if their wards have been arrange
 - [ ] E06000011 - East Riding of Yorkshire
 - [ ] E06000012 - North East Lincolnshire
 - [ ] E06000013 - North Lincolnshire
-- [ ] E06000014 - York
+- [x] E06000014 - York
 - [ ] E06000015
 - [ ] E06000016
 - [ ] E06000017
@@ -306,7 +306,7 @@ This is a list of local authority districts and if their wards have been arrange
 - [x] E08000033 - Calderdale
 - [x] E08000034 - Kirklees
 - [x] E08000035 - Leeds
-- [ ] E08000036 - Wakefield
+- [x] E08000036 - Wakefield
 - [ ] E08000037
 - [ ] E09000001
 - [ ] E09000002
