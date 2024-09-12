@@ -92,18 +92,12 @@
 				document.getElementById('btn-selectall').disabled = !(this.display.hexes.length > 0);
 				document.getElementById('btn-deselectcolour').disabled = (this.selectedHexes.length==0);
 				document.getElementById('btn-info').disabled = (this.display.hexes.length == 0);
-				this.updateSelectedColour();
 			}
 			this.setHeight();
 			return this;
 		};
 
-		this.updateSelectedColour = function(){
-			var c = '';
-			if(this.selectedHexes.length > 0){
-				c = this.selectedHexes[this.selectedHexes.length-1].getColour();
-				document.getElementById('colourpicker').value = c;
-			}
+		this.updateSelectedColour = function(c){
 			document.getElementById('colourpicker-label').style['background-color'] = c;
 			document.querySelectorAll('.selected-colour').forEach(function(el){ el.style['background-color'] = c; });
 			return this;
@@ -262,7 +256,7 @@
 				'on':{
 					'init': function(e){
 						document.getElementById('colourpicker').addEventListener('change',function(e){
-							_obj.updateSelectedColour();
+							_obj.updateSelectedColour(e.target.value);
 							_obj.setSelectedColour(e.target.value);
 						});
 					}
@@ -611,6 +605,7 @@
 				}
 				// Move the last selected hex to the end
 				this.selectedHexes.push(last);
+				this.updateSelectedColour(c);
 			}else{
 				msg.warn('No hexagon selected.');
 			}
