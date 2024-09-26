@@ -363,12 +363,14 @@
 			}).addSeparator().add({
 				'id':'btn-removeselect',
 				'text':'Delete selected hexes',
+				'key': 'Delete',
 				'on':{
 					'click': function(){ _obj.removeSelectedHexes(); }
 				}
 			}).add({
 				'id':'btn-removeall',
 				'text':'Delete all hexes',
+				'key':'Ctrl + Delete',
 				'on':{
 					'click': function(){ _obj.removeAllHexes(); }
 				}
@@ -516,6 +518,9 @@
 					_obj.zoomIn();
 				}else if(e.key=="-"){
 					_obj.zoomOut();
+				}else if(e.key=="Delete" || e.key=="Backspace"){
+					if(e.ctrlKey) _obj.removeAllHexes();
+					else _obj.removeSelectedHexes();
 				}
 			});
 
@@ -668,6 +673,7 @@
 
 		this.removeSelectedHexes = function(){
 			var i,idx;
+			if(this.selectedHexes.length==0) return this;
 			for(var i = 0; i < this.selectedHexes.length; i++){
 				idx = this.display.hexes.indexOf(this.selectedHexes[i]);
 				if(idx >= 0){
