@@ -85,11 +85,12 @@
 				// Need to update these
 				document.getElementById('btn-save').disabled = !(this.display.hexes.length > 0);
 				document.getElementById('btn-labels').disabled = !(this.display.hexes.length > 0);
+				document.getElementById('btn-selectall').disabled = !(this.display.hexes.length > 0);
 				document.getElementById('btn-deselect').disabled = (this.selectedHexes.length == 0);
 				document.getElementById('btn-removeall').disabled = (this.display.hexes.length == 0);
+				document.getElementById('btn-removeselect').disabled = (this.selectedHexes.length == 0);
 				document.getElementById('btn-colour').style.display = (this.selectedHexes.length==0) ? "none":"";
 				document.getElementById('btn-selectcolour').disabled = (this.selectedHexes.length==0);
-				document.getElementById('btn-selectall').disabled = !(this.display.hexes.length > 0);
 				document.getElementById('btn-deselectcolour').disabled = (this.selectedHexes.length==0);
 				document.getElementById('btn-info').disabled = (this.display.hexes.length == 0);
 			}
