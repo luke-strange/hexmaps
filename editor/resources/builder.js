@@ -247,6 +247,8 @@
 			window.addEventListener('resize',function(){ _obj.resize(); });
 
 			this.nav = new OI.NavBar(document.getElementById('navigation'),{'id':'mainmenu'});
+
+			// Create main menu items
 			this.nav.add({'id':'menu-file','text':'File'});
 			this.nav.add({'id':'menu-edit','text':'Edit'});
 			this.nav.add({'id':'menu-view','text':'View'});
@@ -262,6 +264,8 @@
 					}
 				}
 			});
+
+			// Add to main menu items
 			this.nav.getItem('menu-file').add({
 				'id':'btn-open',
 				'icon':'<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a2 2 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3m-8.322.12q.322-.119.684-.12h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981z"/></svg>',
@@ -356,6 +360,12 @@
 					'click': function(){ _obj.deselectAllHexes(); }
 				}
 			}).addSeparator().add({
+				'id':'btn-removeselect',
+				'text':'Delete selected hexes',
+				'on':{
+					'click': function(){ _obj.removeSelectedHexes(); }
+				}
+			}).add({
 				'id':'btn-removeall',
 				'text':'Delete all hexes',
 				'on':{
@@ -575,11 +585,11 @@
 		}
 
 		this.selectHex = function(h,noborderupdate){
-			//msg.info('selectHex: '+h.hex.q+','+h.hex.r,h.hex,{'fade':2000});
 			h.select();
 			var idx = this.selectedHexes.indexOf(h);
 			if(idx < 0) this.selectedHexes.push(h);
 			if(!noborderupdate) this.updateSelectionBorder();
+			this.updateSelectedColour(h.getColour())
 			return this;
 		};
 
@@ -651,6 +661,20 @@
 			this.display.hexes = [];
 			this.selectedHexes = [];
 			document.getElementById('btn-removeall').disabled = true;
+			this.updateSelectionBorder();
+			return this.updateView();
+		};
+
+		this.removeSelectedHexes = function(){
+			var i,idx;
+			for(var i = 0; i < this.selectedHexes.length; i++){
+				idx = this.display.hexes.indexOf(this.selectedHexes[i]);
+				if(idx >= 0){
+					this.display.hexes[idx].remove();
+					this.display.hexes.splice(idx,1);
+				}
+			}
+			this.selectedHexes = [];
 			this.updateSelectionBorder();
 			return this.updateView();
 		};
