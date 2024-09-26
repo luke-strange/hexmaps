@@ -332,7 +332,7 @@
 			
 			this.nav.getItem('menu-edit').add({
 				'id':'btn-selectcolour',
-				'icon':'<div class="selected-colour box"></div>',
+				'icon':'<div class="selected-colour box" style="background:black;"></div>',
 				'text':'Select hexes by colour',
 				'key': 'c',
 				'on':{
@@ -340,7 +340,7 @@
 				}
 			}).add({
 				'id':'btn-deselectcolour',
-				'icon':'<div class="selected-colour box"></div>',
+				'icon':'<div class="selected-colour box" style="background:black;"></div>',
 				'text':'Deselect by colour',
 				'key': 'Shift + C',
 				'on':{
