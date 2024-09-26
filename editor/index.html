@@ -231,34 +231,22 @@
 				<h2 id="instructions">Instructions</h2>
 				<ol>
 					<li><a href="#help-loading">Loading a layout</a></li>
-					<li><a href="#help-export">Exporting the map</a></li>
 					<li><a href="#help-nav">Navigation</a></li>
 					<li><a href="#help-selection">Selecting/deselecting hexagons</a></li>
 					<li><a href="#help-move">Moving hexagons</a></li>
 					<li><a href="#help-colour">Colouring hexagons</a></li>
+					<li><a href="#help-save">Saving a layout</a></li>
 				</ol>
 				
 				<h3 id="help-loading">Loading a layout</h3>
-				<p>Go to <code>File &rarr; Open HexJSON</code> to load a <a href="hexjson.html">HexJSON</a> file. If you are using a remote URL it will need to be publicly accessible and the remote server will need to <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">allow the file to be loaded</a> by this tool.</p>
-
-				<h3 id="help-export">Exporting the map</h3>
-				<p>Go to <code>File &rarr; Save HexJSON</code> to export the map as HexJSON.</p>
-				<!--
-				<p>You can export the map in four ways:</p>
-				<ol style="margin: 1em 0 1em 2em;">
-					<li>HexJSON. This is the prefered output as it can be loaded back in to this tool again.</li>
-					<li>SVG. This will save the image created in the browser. If you output as SVG you won't be able to load it back into this tool.</li>
-					<li>GeoJSON. A cartogram is not geographic but some people have requested "geographic formats" so they can use these hex cartograms with specific GIS software. To make it "geographic" we've done a very simple projection at Null Island (0°, 0°) keeping the result to approximately 0.1°×0.1° to try to reduce distortions. If you output as GeoJSON you won't be able to load it back into this tool.</li>
-					<li>PNG. This will save the map (without the grid) as an image that you can use elsewhere. You won't be able to load it back into this tool but it is useful for screenshots.</li>
-				</ol>
-				-->
+				<p>Go to <code>File &rarr; Open HexJSON</code> (or press <code>Ctrl + o</code>) to load a <a href="hexjson.html">HexJSON</a> file. If you are using a remote URL it will need to be publicly accessible and the remote server will need to <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">allow the file to be loaded</a> by this tool.</p>
 
 				<h3 id="help-nav">Navigation</h3>
 				<p>You can pan around the map. You can zoom in/out of the view using the zoom slider in the top right or by using a mouse scroll wheel.</p>
 
 				<h3 id="help-selection">Selecting/deselecting hexagons</h3>
-				<p>Select a specific hexagon by clicking it. Add more hexagons to the selection by keeping the <code>Ctrl</code> key pressed when clicking hexagons. Select all hexagons with <code>Ctrl+a</code>. Selecting <code>Edit &rarr; Select hexes by colour</code> (or pressing <code>c</code> on your keyboard) will select all hexagons with the same colour as the last selected hexagon.</p>
-				<p>You can deselect all hexagons by pressing <code>Ctrl+d</code>, <code>Esc</code> or <code>Edit &rarr; Deselect all</code>. You can deselect all hexagons that match the last selected colour by pressing <code>Shift+c</code>.</p>
+				<p>Select a specific hexagon by clicking it. If not on a touchscreen, you can add more hexagons to the selection by keeping the <code>Ctrl</code> key pressed when clicking hexagons. Select all hexagons with <code>Ctrl + a</code>. Selecting <code>Edit &rarr; Select hexes by colour</code> (or pressing <code>c</code> on your keyboard) will select all hexagons with the same colour as the last selected hexagon.</p>
+				<p>You can deselect all hexagons by pressing <code>Ctrl + d</code>, <code>Esc</code> or <code>Edit &rarr; Deselect all</code>. You can deselect all hexagons that match the last selected colour by pressing <code>Shift + c</code>.</p>
 
 				<h3 id="help-move">Moving hexagons</h3>
 				<p>Once you have some hexagons selected they should be bordered by a dashed line. Click anywhere within the selection and drag it to another location.</p>
@@ -266,6 +254,8 @@
 				<h3 id="help-colour">Colouring hexagons</h3>
 				<p>When building a hexagon layout you may want to set default colours for hexagons. If you have one or more hexagons selected you can choose to change their colour by using the colour picker tool in the menu bar.</p>
 
+				<h3 id="help-save">Saving a layout</h3>
+				<p>Go to <code>File &rarr; Save HexJSON</code> (or press <code>Ctrl + s</code>) to export the map as HexJSON.</p>
 
 				<p>&copy; 2024 Stuart Lowe, Open Innovations (MIT licence)</p>
 			</div>
