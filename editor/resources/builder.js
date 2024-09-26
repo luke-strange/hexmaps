@@ -240,6 +240,9 @@
 					}
 				}
 			}
+			opts.resize = function(h){
+				el.foot.style['max-height'] = h+'px';
+			}
 
 			this.display = new HexDisplay(el.canvas,opts);
 			this.display.init();
@@ -1085,6 +1088,7 @@
 			this.wide = main.offsetWidth;
 			this.tall = main.offsetHeight;
 			this.updateViewBox();
+			if(typeof opts.resize==="function") opts.resize.call(this,h);
 			return this;
 		};
 
