@@ -1376,12 +1376,17 @@
 				this.setText(arr);
 			}
 			t.style.display = '';
+			this.updateLabelColour();
 			return this;
 		};
 		this.hideLabel = function(){
 			t.style.display = 'none';
 			return this;
-		}
+		};
+		this.updateLabelColour = function(){
+			t.style.fill = contrast(this.getColour());
+			return this;
+		};
 		this.getOpts = function(){ return opts; };
 		this.toFront = function(){
 			if(myel) myel.appendChild(g);
@@ -1415,6 +1420,7 @@
 				p.setAttribute('stroke-width','0.75');
 				p.setAttribute('stroke',c);
 			}
+			this.updateLabelColour();
 			return this;
 		};
 
@@ -1574,6 +1580,13 @@
 		};
 	}
 	OI.HexBuilder = function(opts){ return new HexBuilder(opts); };
+
+	function h2d(h) {return parseInt(h,16);}
+	function toLin(v){ v /= 255; if (v <= 0.03928){ return v/12.92; }else{ return Math.pow((v+0.055)/1.055,2.4); }}
+	function rLum(rgb){ return 0.2126 * toLin(rgb[0]) + 0.7152 * toLin(rgb[1]) + 0.0722 * toLin(rgb[2]); }
+	function cRatio(a, b){ let L1 = rLum(a); let L2 = rLum(b); if(L1 < L2){ let temp = L2; L2 = L1; L1 = temp; } return (L1 + 0.05) / (L2 + 0.05); }
+	function contrast(c){ let rgb = [h2d(c.substring(1,3)),h2d(c.substring(3,5)),h2d(c.substring(5,7))]; return (cRatio(rgb,[0, 0, 0]) > cRatio(rgb,[255, 255, 255]) ? "black" : "white"); }
+
 	root.OI = OI||root.OI||{};
 
 })(window || this);
