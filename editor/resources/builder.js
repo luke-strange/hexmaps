@@ -42,7 +42,7 @@
 
 		// Detect capabilities
 		this.saveable = (typeof Blob==="function");
-		this.touchable = (('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0));
+		this.touchable = (window.matchMedia("(pointer: coarse)").matches);
 
 		var minz = parseFloat(el.zoom.getAttribute('min'));
 		var maxz = parseFloat(el.zoom.getAttribute('max'));
@@ -138,9 +138,8 @@
 			msg.log('init');
 			if(this.touchable) document.body.classList.add('touchable');
 
-			opts.hex = {};
-			if(this.touchable){
-				opts.hex.on = {
+			opts.hex = {
+				'on': {
 					'touchstart': function(e){
 						touches = e.touches.length;
 						if(touches==1){
@@ -187,10 +186,7 @@
 						draggingselection = false;
 						dragging = false;
 						clickedHex = null;
-					}
-				};
-			}else{
-				opts.hex.on = {
+					},
 					'mouseover': function(e){
 						if(!dragging){
 							e.preventDefault();
@@ -238,10 +234,8 @@
 						_obj.setHovered();
 						if(!this.isSelected()) _obj.clearInfo();
 					}
-				}
-			}
-			opts.resize = function(h){
-				el.foot.style['max-height'] = h+'px';
+				},
+				'resize':function(h){ el.foot.style['max-height'] = h+'px'; }
 			}
 
 			if(this.query.labels) opts.labels = this.query.labels;
