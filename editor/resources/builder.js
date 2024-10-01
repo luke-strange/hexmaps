@@ -764,7 +764,7 @@
 			file = file.replace(/.*\/([^\/])/,function(m,p1){ return p1; });
 
 			str = JSON.stringify(this.getHexJSON());
-			str = str.replace(/\{\"layout\"/,"{\n\t\"layout\"").replace(/\,\"(version|boundaries|hexes)\":([\{]?)/g,function(m,p1,p2){ return ",\n\t\""+p1+"\":"+(p2 ? p2+"\n\t\t":""); }).replace(/\}\,"([^\"]+)":\{/g,function(m,p1){ return "\},\n\t\t\""+p1+"\":{"; }).replace(/\}\}\,/,"\}\n\t\},").replace(/\}\}$/,"\n\t\}\n\}");
+			str = str.replace(/\{\"layout\"/,"{\n\t\"layout\"").replace(/\,\"(version|boundaries|hexes)\":([\{]?)/g,function(m,p1,p2){ return ",\n\t\""+p1+"\":"+(p2 ? p2+"\n\t\t":""); }).replace(/\}\,"([^\"]+)":\{/g,function(m,p1){ return "\},\n\t\t\""+p1+"\":{"; }).replace(/\}\}\,/,"\}\n\t\},").replace(/\}\}$/,"\n\t\}\n\}").replace(/\{\"hexes\"/,"\{\n\t\"hexes\"").replace(/\,\"layout\"/,"\,\n\t\"layout\"");
 
 			var textFileAsBlob = new Blob([str], {type:type});
 			var fileNameToSaveAs = file;
@@ -798,6 +798,7 @@
 				id = d.id;
 				d.q = this.display.hexes[i].hex.q;
 				d.r = this.display.hexes[i].hex.r;
+				d.colour = this.display.hexes[i].getColour();
 				delete d.id;
 				delete d.layout;
 				json.hexes[id] = d;
