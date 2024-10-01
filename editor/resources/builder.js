@@ -244,6 +244,7 @@
 				el.foot.style['max-height'] = h+'px';
 			}
 
+			if(this.query.labels) opts.labels = this.query.labels;
 			this.display = new HexDisplay(el.canvas,opts);
 			this.display.init();
 
@@ -502,7 +503,6 @@
 			// Add key press functionality
 			document.addEventListener('keydown',function(e){
 				e.stopPropagation();
-				console.log(e.key)
 				if(e.key=="c"){
 					_obj.selectBySameColour();
 				}else if(e.key.toLowerCase()=="c" && e.shiftKey){
@@ -810,7 +810,6 @@
 			this.hexjson = hexjson;
 			msg.log('loadHexJSON',hexjson);
 			this.display.addHexJSON(hexjson);
-			if(this.display.showlabels) this.display.hexes[this.display.hexes.length-1].showLabel();
 			setTimeout(function(){ _obj.zoomToBBox().updateView(); },100);
 			return this;
 		};
@@ -998,7 +997,7 @@
 		this.wide = main.offsetWidth;
 		this.tall = main.offsetHeight;
 		this.centre = {'x':this.wide/2,'y':this.tall/2};
-		this.showlabels = false;
+		this.showlabels = (typeof opts.labels==="boolean" ? opts.labels : false);
 		this.showgrid = (typeof opts.grid==="boolean" ? opts.grid : true);
 		this.scale = 1;
 		this.hexes = [];
@@ -1153,6 +1152,7 @@
 			var h = new Hexagon(opt,extra);
 			this.hexes.push(h);
 			h.addTo(hexes);
+			if(this.showlabels) h.showLabel();
 			return this;
 		};
 		this.toggleLabels = function(){
