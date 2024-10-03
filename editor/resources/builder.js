@@ -746,19 +746,32 @@
 			return this;
 		};
 
+		this.incrementVersion = function(v){
+			var vs = v.split(/\./);
+			var i = vs.length-1;
+			vs[i] = parseInt(vs[i])+1;
+			return vs.join(".");
+		};
+
 		this.saveHexJSON = function(){
-			var str,file,type,c,r,m,cols;
+			var str,file,type,c,r,m,cols,hexjson,before;
 
 			type = "text/json";
-
 			file = "test.json";
+
 			if(this.query.url) file = this.query.url;
 			if(document.getElementById('url').value) file = document.getElementById('url').value;
 			if(document.getElementById('standard_files').files.length > 0) file = document.getElementById('standard_files').files[0].name;
 			file = file.replace(/.*\/([^\/])/,function(m,p1){ return p1; });
 
-			str = JSON.stringify(this.getHexJSON());
-			str = str.replace(/\{\"layout\"/,"{\n\t\"layout\"").replace(/\,\"(version|boundaries|hexes)\":([\{]?)/g,function(m,p1,p2){ return ",\n\t\""+p1+"\":"+(p2 ? p2+"\n\t\t":""); }).replace(/\}\,"([^\"]+)":\{/g,function(m,p1){ return "\},\n\t\t\""+p1+"\":{"; }).replace(/\}\}\,/,"\}\n\t\},").replace(/\}\}$/,"\n\t\}\n\}").replace(/\{\"hexes\"\:\{\"/,"\{\n\t\"hexes\"\:\{\n\t\t\"").replace(/\,\"layout\"/,"\,\n\t\"layout\"").replace(/([0-9])\},\n/g,function(m,p1){ return p1+' },\n'; });
+			before = JSON.stringify(this.hexjson).replace(/,"id":"([^\"]+)","layout":"([^\"]+)"/g,"");
+			hexjson = this.getHexJSON();
+			after = JSON.stringify(hexjson);
+			if(!("version" in hexjson)) hexjson.version = "0.1";
+			if(before!=after) hexjson.version = this.incrementVersion(hexjson.version);
+
+			str = JSON.stringify(hexjson);
+			str = str.replace(/\{\"layout\"/,"{\n\t\"layout\"").replace(/\,\"(version|boundaries|hexes)\":([\{]?)/g,function(m,p1,p2){ return ",\n\t\""+p1+"\":"+(p2 ? p2+"\n\t\t":""); }).replace(/\}\,"([^\"]+)":\{/g,function(m,p1){ return "\},\n\t\t\""+p1+"\":{"; }).replace(/\}\}\,/,"\}\n\t\},").replace(/\}\}$/,"\n\t\}\n\}").replace(/\{\"hexes\"\:\{\"/,"\{\n\t\"hexes\"\:\{\n\t\t\"").replace(/\,\"layout\"/,"\,\n\t\"layout\"").replace(/([0-9])\},\n/g,function(m,p1){ return p1+' },\n'; }).replace(/\}$/,"\n\}");
 
 			var textFileAsBlob = new Blob([str], {type:type});
 			var fileNameToSaveAs = file;
