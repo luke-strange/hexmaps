@@ -92,6 +92,8 @@
 				document.getElementById('btn-colour').style.display = (this.selectedHexes.length==0) ? "none":"";
 				document.getElementById('btn-selectcolour').disabled = (this.selectedHexes.length==0);
 				document.getElementById('btn-deselectcolour').disabled = (this.selectedHexes.length==0);
+				document.getElementById('btn-attract').disabled = (this.selectedHexes.length != 1);
+				document.getElementById('btn-repel').disabled = (this.selectedHexes.length != 1);
 				document.getElementById('btn-info').disabled = (this.display.hexes.length == 0);
 			}
 			this.setHeight();
@@ -269,7 +271,7 @@
 				'id':'btn-open',
 				'icon':'<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a2 2 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3m-8.322.12q.322-.119.684-.12h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981z"/></svg>',
 				'text':'Open HexJSON',
-				'key':'Ctrl + O',
+				'key':'Ctrl + o',
 				'on':{
 					'init': function(btn,e){
 						document.querySelectorAll('.btn-open').forEach(function(el){
@@ -325,7 +327,7 @@
 				'id':'btn-save',
 				'icon': '<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"></path><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"></path></svg>',
 				'text':'Save HexJSON',
-				'key':'Ctrl + S',
+				'key':'Ctrl + s',
 				'on':{
 					'click': function(){ _obj.saveHexJSON(); }
 				}
@@ -343,23 +345,39 @@
 				'id':'btn-deselectcolour',
 				'icon':'<div class="selected-colour box" style="background:black;"></div>',
 				'text':'Deselect by colour',
-				'key': 'Shift + C',
+				'key': 'Shift + c',
 				'on':{
 					'click': function(){ _obj.deselectBySameColour(); }
 				}
 			}).add({
 				'id':'btn-selectall',
 				'text':'Select all',
-				'key': 'Ctrl + A',
+				'key': 'Ctrl + a',
 				'on':{
 					'click': function(){ _obj.selectAllHexes(); }
 				}
 			}).add({
 				'id':'btn-deselect',
 				'text':'Deselect all',
-				'key': 'Ctrl + D',
+				'key': 'Ctrl + d',
 				'on':{
 					'click': function(){ _obj.deselectAllHexes(); }
+				}
+			}).addSeparator().add({
+				'id':'btn-attract',
+				'icon':'<div class="selected-colour box" style="background:black;"></div>',
+				'text':'Attract by colour',
+				'key': 'a',
+				'on':{
+					'click': function(){ _obj.attract(1); }
+				}
+			}).add({
+				'id':'btn-repel',
+				'icon':'<div class="selected-colour box" style="background:black;"></div>',
+				'text':'Repel by colour',
+				'key': 'z',
+				'on':{
+					'click': function(){ _obj.attract(-1); }
 				}
 			}).addSeparator().add({
 				'id':'btn-removeselect',
@@ -371,7 +389,7 @@
 			}).add({
 				'id':'btn-removeall',
 				'text':'Delete all hexes',
-				'key':'Ctrl + Delete',
+				'key':'Ctrl + delete',
 				'on':{
 					'click': function(){ _obj.removeAllHexes(); }
 				}
@@ -501,9 +519,10 @@
 					_obj.selectBySameColour();
 				}else if(e.key.toLowerCase()=="c" && e.shiftKey){
 					_obj.deselectBySameColour();
-				}else if(e.key=="a" && e.ctrlKey){
+				}else if(e.key=="a"){
 					e.preventDefault();
-					_obj.selectAllHexes();
+					if(e.ctrlKey) _obj.selectAllHexes();
+					else _obj.attract(1);
 				}else if((e.key.toLowerCase()=="a" && e.ctrlKey && e.shiftKey) || (e.key=="d" && e.ctrlKey) || e.key === "Escape"){
 					e.preventDefault();
 					_obj.deselectAllHexes();
@@ -521,6 +540,9 @@
 				}else if(e.key=="s" && e.ctrlKey){
 					e.preventDefault();
 					_obj.saveHexJSON();
+				}else if(e.key=="z"){
+					e.preventDefault();
+					_obj.attract(-1);
 				}else if(e.key=="+"){
 					_obj.zoomIn();
 				}else if(e.key=="-"){
@@ -580,6 +602,94 @@
 		this.zoomToBBox = function(){
 			s = this.display.zoomToBBox();
 			this.setScale(s);
+			return this;
+		};
+
+		this.attract = function(delta){
+			if(typeof delta!=="number") delta = -1;
+			delta *= -1;
+			// Only do something if we have one hex selected
+			if(this.selectedHexes.length != 1){
+				msg.error('A single hexagon must be selected to attract/repel others of the same colour.');
+				return this;
+			}
+
+			// Each selected hex is a centre of mass
+			// Find the blobs of hexes
+			var com = this.selectedHexes[0];
+			var colour = com.getColour();
+
+			// Get all the hexes of the same colour
+			var h,hexes = [com],islandlookup = {},lookup = {};
+			for(h = 0; h < this.display.hexes.length; h++){
+				if(this.display.hexes[h].getColour()==colour && this.display.hexes[h].hex!==com) hexes.push(this.display.hexes[h]);
+				islandlookup[this.display.hexes[h].hex.id] = -1;
+			}
+			var id,island,islands = [],neighbours,n,i,hex,dq,dr,ok;
+			// Find islands of hexes
+			for(h = 0; h < hexes.length; h++){
+				id = hexes[h].hex.id;
+				island = islandlookup[id];
+				if(island < 0){
+					// No island set yet
+					// See if any of the neighbours have the island set
+					neighbours = hexes[h].hex.neighbours(this.display.layout);
+					for(n = 0; n < neighbours.length; n++){
+						if(neighbours[n].id in islandlookup && islandlookup[neighbours[n].id] >= 0){
+							island = islandlookup[neighbours[n].id];
+						}
+					}
+					if(island >= 0){
+						islandlookup[id] = island;
+					}else{
+						islandlookup[id] = islands.length;
+						dq = delta*(hexes[h].hex.q-com.hex.q);
+						dr = delta*(hexes[h].hex.r-com.hex.r);
+						mx = Math.max(Math.abs(dq),Math.abs(dr));
+						// Normalise to a change of 1
+						dq = Math.round(dq/mx);
+						dr = Math.round(dr/mx);
+						islands.push({'dq':dq,'dr':dr,'hexes':[]});
+					}
+					islands[islandlookup[id]].hexes.push(hexes[h]);
+				}
+			}
+			// At this point we have an array of islands where each island is an array of hex IDs
+
+			// For each island (except for the selected island)
+			for(i = 1; i < islands.length; i++){
+				// Find all the new hex IDs
+				shifted = [];
+
+				// Build a new lookup that is every hex ID except those on this island
+				lookup = {};
+				for(h = 0; h < this.display.hexes.length; h++){
+					ok = true;
+					for(n = 0; n < islands[i].hexes.length; n++){
+						if(islands[i].hexes[n].hex==this.display.hexes[h].hex){
+							ok = false;
+						}
+					}
+					if(ok) lookup[this.display.hexes[h].hex.id] = 1;
+				}
+
+				// Set the shift for this island
+				shift = {'a':{'q':islands[i].hexes[0].hex.q,'r':islands[i].hexes[0].hex.r},'b':{'q':islands[i].hexes[0].hex.q + islands[i].dq,'r':islands[i].hexes[0].hex.r + islands[i].dr}};
+				movable = true;
+				for(h = 0; h < islands[i].hexes.length; h++){
+					hex = this.display.getShiftedCoords(islands[i].hexes[h],shift);
+					id = hex[0]+','+hex[1];
+					shifted.push({'id':id,'q':hex[0],'r':hex[1]});
+					// Does this ID already exist? If so we won't move the island
+					if(id in lookup) movable = false;
+				}
+				// Only move islands if we are able to move it
+				if(movable){
+					for(h = 0; h < shifted.length; h++){
+						this.display.shiftHex(islands[i].hexes[h],shift);
+					}
+				}
+			}
 			return this;
 		};
 
@@ -1181,7 +1291,7 @@
 
 		function isOdd(v){ return (v&1==1) ? true : false; }
 		function isEven(v){ return (v&1==1) ? false : true; }
-		this.shiftHex = function(hexagon,shift){
+		this.getShiftedCoords = function(hexagon,shift){
 			var dq,dr,layout;
 			layout = this.layout;
 			dq = shift.b.q - shift.a.q;
@@ -1223,7 +1333,11 @@
 				//   - if the current hex is on an odd column it has the same dr
 				if(isOdd(shift.a.q) && isEven(shift.b.q) && isEven(hexagon.hex.q)) dr++;
 			}
-			hexagon.setCoords(hexagon.hex.q+dq,hexagon.hex.r+dr);
+			return [hexagon.hex.q + dq, hexagon.hex.r + dr];
+		};
+		this.shiftHex = function(hexagon,shift){
+			var d = this.getShiftedCoords(hexagon,shift);
+			hexagon.setCoords(d[0],d[1]);
 			return hexagon.hex;
 		}
 		this.getXY = function(q,r){ return getXY(q,r,this.display.layout); }
